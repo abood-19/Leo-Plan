@@ -374,7 +374,8 @@ IDEAS=[
 ]
 
 # extra pack items
-PACK.insert(2,("tattoo",("Тату-аккаунт · сторис для хайлайтов","حساب التاتو · ستوريز للهايلايتس"),[
+PACK.insert(0,("tattoo",("Премиум-обложки","أغلفة مميزة"),[("1_tattoo_account/highlights/premium/Работы_машинка.png",("Тату-машинка","ماكينة التاتو"),("Обложка «Работы» или «Тату»","غلاف «Работы» أو «Тату»"),"story")]))
+PACK.insert(3,("tattoo",("Тату-аккаунт · сторис для хайлайтов","حساب التاتو · ستوريز للهايلايتس"),[
  ("1_tattoo_account/stories/00_Тату-мастер.png",("Тату-мастер","فنان تاتو"),("Первая сторис в «Обо мне»","أول ستوري بـ «Обо мне»"),"story"),
  ("1_tattoo_account/stories/04_Уход.png",("Уход","العناية"),("Сторис в «Уход»","ستوري بـ «Уход»"),"story"),
  ("1_tattoo_account/stories/05_Обо_мне.png",("Обо мне","عنّي"),("Сторис в «Обо мне» + отметка @wenx.xz_","ستوري بـ «Обо мне» + منشن"),"story"),
@@ -386,3 +387,52 @@ for g in PACK:
         g[2].insert(4,("2_personal_account/highlights/05_Музыка.png",("Музыка","Музыка"),("Обложка хайлайта","غلاف هايلايت"),"hl"))
         g[2].extend([("2_personal_account/stories/02_Новая_работа.png",("Новая работа","شغل جديد"),("Рамка для репоста работ","إطار لإعادة نشر الشغل"),"story"),
                      ("2_personal_account/stories/03_Моя_музыка.png",("Моя музыка","موسيقاي"),("Сторис в «Музыка» + ссылка на канал","ستوري بـ «Музыка» + رابط"),"story")])
+
+# ===== Highlight cover options (menu) =====
+STAR_URL="https://ai-thumbnails.s3.amazonaws.com/editor/5e9bb89b-7c66-40ac-a8ea-0a47ccd78d79/cc2d7dc9-06d3-4b23-915d-7c460edcaeb6.jpeg"
+STYLE=" Y2K luxury aesthetic, glossy liquid chrome with iridescent lilac, pink and cyan reflections, soft violet glow, centered on a pure black background with lots of empty space, ultra detailed 3D render, no text."
+# each: (account, name, [ (kind, (ru,ar) label, payload) ]) kind: img=local pack file | url=external image | photo=shoot idea | prompt=AI prompt
+HL_OPT=[
+("tattoo",("Запись","Запись"),[
+ ("img",("Неоновая З","حرف З نيون"),"1_tattoo_account/highlights/03_Запись.png"),
+ ("prompt",("Хромированный календарь","تقويم كروم"),"A small 3D desk calendar icon with a check mark,"+STYLE),
+ ("photo",("Фото: экран телефона с сайтом записи в фиолетовом свете","صورة: شاشة الجوال على موقع الحجز بضو بنفسجي"),None)]),
+("tattoo",("Работы","Работы"),[
+ ("img",("Хромовая тату-машинка","ماكينة تاتو كروم"),"1_tattoo_account/highlights/premium/Работы_машинка.png"),
+ ("img",("Неоновая Р","حرف Р نيون"),"1_tattoo_account/highlights/01_Работы.png"),
+ ("photo",("Фото: твоя рука с машинкой крупно, тёмный фон, фиолетовый свет","صورة: إيده بالماكينة عن قرب، خلفية غامقة، ضو بنفسجي"),None)]),
+("tattoo",("Эскизы","Эскизы"),[
+ ("img",("Неоновая Э","حرف Э نيون"),"1_tattoo_account/highlights/02_Эскизы.png"),
+ ("prompt",("Хромированный карандаш","قلم رصاص كروم"),"A single 3D pencil drawing a thin glowing line,"+STYLE),
+ ("photo",("Фото: эскиз на столе сверху, рядом рука с карандашом","صورة: إسكتش على الطاولة من فوق، وإيد بالقلم"),None)]),
+("tattoo",("Отзывы","Отзывы"),[
+ ("url",("Голографическая звезда","نجمة هولوغرام"),STAR_URL),
+ ("img",("Пять неоновых звёзд","٥ نجوم نيون"),"1_tattoo_account/highlights/04_Отзывы.png"),
+ ("prompt",("Хромированное сердце","قلب كروم"),"A single inflated 3D heart,"+STYLE)]),
+("tattoo",("Уход","Уход"),[
+ ("img",("Неоновая У","حرف У نيون"),"1_tattoo_account/highlights/05_Уход.png"),
+ ("prompt",("Хромовая капля","نقطة كروم"),"A single 3D water droplet,"+STYLE),
+ ("photo",("Фото: тюбик крема и плёнка на тёмном столе","صورة: أنبوب الكريم والنايلون على طاولة غامقة"),None)]),
+("tattoo",("Обо мне","Обо мне"),[
+ ("pending",("Лео-игрушка с надписью «ТАТУ»","ليو كدمية مع كلمة «ТАТУ»"),"avatar"),
+ ("img",("Неоновая Л","حرف Л نيون"),"1_tattoo_account/highlights/06_Обо_мне.png"),
+ ("photo",("Фото: ты в очках, чёрно-белое","صورة: هو بالنظارة، أبيض وأسود"),None)]),
+("personal",("Тату","Тату"),[
+ ("img",("Хромовая тату-машинка","ماكينة كروم"),"1_tattoo_account/highlights/premium/Работы_машинка.png"),
+ ("img",("Розовая неоновая Т","حرف Т زهري"),"2_personal_account/highlights/01_Тату.png")]),
+("personal",("Я","Я"),[
+ ("img",("Розовая неоновая Я","حرف Я زهري"),"2_personal_account/highlights/02_Я.png"),
+ ("photo",("Фото: твоё лучшее селфи, обрезанное по центру","صورة: أحلى سيلفي، بالنص"),None)]),
+("personal",("Будни","Будни"),[
+ ("img",("Розовая неоновая Б","حرف Б زهري"),"2_personal_account/highlights/03_Будни.png"),
+ ("prompt",("Хромированная кружка кофе","كوب قهوة كروم"),"A 3D coffee cup with steam,"+STYLE)]),
+("personal",("Вайб","Вайб"),[
+ ("img",("Розовая неоновая В","حرف В زهري"),"2_personal_account/highlights/04_Вайб.png"),
+ ("prompt",("Хромированная молния","برق كروم"),"A single 3D lightning bolt,"+STYLE)]),
+("personal",("Музыка","Музыка"),[
+ ("img",("Розовая неоновая нота","نوتة زهري"),"2_personal_account/highlights/05_Музыка.png"),
+ ("prompt",("Хромированные наушники","سماعات كروم"),"3D over-ear headphones,"+STYLE)]),
+]
+HL_HOW=(("Как выбрать обложку","كيف يختار الغلاف"),
+ ("Под каждым хайлайтом 2–3 варианта. «Готово» — картинка уже лежит в «Картинках», просто сохрани. «Сгенерировать» — скопируй текст и вставь в любой генератор картинок (ChatGPT, Leonardo, Bing Image Creator). «Фото» — сними сам. Главное: на одном аккаунте все обложки в одном стиле.",
+  "تحت كل هايلايت ٢–٣ خيارات. «جاهز» = الصورة موجودة بـ «الصور»، بس يحفظها. «توليد» = ينسخ النص ويحطه بأي مولّد صور (ChatGPT، Leonardo، Bing Image Creator). «صورة» = يصوّرها بنفسه. المهم: بنفس الحساب كل الأغلفة بنفس الستايل."))

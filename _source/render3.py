@@ -80,8 +80,28 @@ def build(L,out,standalone=False):
             h+='</div></div>'
         return h
     tat_hl=[c for c in TATTOO if c[0][0] in hl_where]; per_hl=[c for c in PERSONAL if c[0][0] in hl_where]
-    H=f'<p class="lead">{e(t(UI["hl_d"]))}</p><h2>@kaishi_tattoo</h2><div class="hmap">{hrow("tattoo")}</div>'+cbs(tat_hl)
-    H+=f'<h2>@wenx.xz_</h2><div class="hmap">{hrow("personal")}</div>'+cbs(per_hl)
+    AV="https://ai-thumbnails.s3.amazonaws.com/editor/5e9bb89b-7c66-40ac-a8ea-0a47ccd78d79/6aac6a44-1937-43b8-9469-5afb83647e31.jpeg"
+    for _,_,opts in HL_OPT:
+        for k_,lab,pay in opts:
+            if k_=="img" and pay not in IMG:
+                n_=len(IMG)+1; a_=f"img/{n_:02d}.png"; shutil.copy(f"{PACKDIR}/{pay}",out+"/"+a_); IMG[pay]=a_
+    kind_lbl={"img":("Готово","جاهز"),"url":("Готово","جاهز"),"pending":("Готово","جاهز"),"prompt":("Сгенерировать","توليد"),"photo":("Снять самому","تصوير")}
+    def opts(a_):
+        h='<div class="opts">'
+        for acc_,nm,ol in HL_OPT:
+            if acc_!=a_: continue
+            h+=f'<div class="opt"><h3>{e(t(nm))}</h3><div class="ol">'
+            for k_,lab,pay in ol:
+                src=IMG.get(pay) if k_=="img" else (pay if k_=="url" else (AV if k_=="pending" else None))
+                pic=f'<a class="oimg" href="{src}" target="_blank" rel="noopener"><img src="{src}" alt="" loading="lazy"></a>' if src else ""
+                body=f'<div class="cb"><div class="cbh"><div><span class="lbl">prompt</span></div><button class="copy" type="button">{e(t(UI["copy"]))}</button></div><pre dir="ltr">{e(pay)}</pre></div>' if k_=="prompt" else ""
+                op=f'<a class="open" href="{src}" target="_blank" rel="noopener">{e(t(UI["open"]))} ↗</a>' if src else ""
+                h+=f'<div class="oi {k_}">{pic}<div class="ot"><span class="ok_ {k_}">{e(t(kind_lbl[k_]))}</span><b>{e(t(lab))}</b>{op}{body}</div></div>'
+            h+='</div></div>'
+        return h+'</div>'
+    H=f'<div class="note"><b>{e(t(HL_HOW[0]))}</b><p>{e(t(HL_HOW[1]))}</p></div><h2>@kaishi_tattoo · '+e(t(("обложки","الأغلفة")))+'</h2>'+opts("tattoo")+f'<h2>@wenx.xz_ · '+e(t(("обложки","الأغلفة")))+'</h2>'+opts("personal")
+    H+=f'<h2>{e(t(UI["inside"]))} · @kaishi_tattoo</h2><p class="lead">{e(t(UI["hl_d"]))}</p><div class="hmap">{hrow("tattoo")}</div>'+cbs(tat_hl)
+    H+=f'<h2>{e(t(UI["inside"]))} · @wenx.xz_</h2><div class="hmap">{hrow("personal")}</div>'+cbs(per_hl)
     # ---- texts tab
     T=f'<h2>{e(t(UI["dm"]))}</h2>'+cbs(DM)+f'<h2>{e(t(UI["tags"]))}</h2>'+cbs(TAGS)
     # ---- pics tab
@@ -178,6 +198,18 @@ figure{{margin:0;min-width:0;background:var(--card);border:1px solid var(--line)
 figcaption{{display:flex;flex-direction:column;gap:2px;padding:8px 4px 2px;font-size:13px}}
 figcaption span{{color:var(--m);line-height:1.4}}
 .open{{color:var(--a);font-weight:600;text-decoration:none;margin-top:4px}}
+
+.opts{{display:grid;gap:12px}}
+.opt{{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}}
+.opt h3{{margin:0 0 10px;font:700 18px var(--fd);letter-spacing:.04em}}
+.ol{{display:grid;gap:10px}}
+.oi{{display:grid;grid-template-columns:72px 1fr;gap:12px;align-items:start}}
+.oi.prompt,.oi.photo{{grid-template-columns:1fr}}
+.oimg img{{width:72px;height:72px;border-radius:50%;object-fit:cover;background:var(--dark);border:3px solid var(--soft)}}
+.ot{{display:flex;flex-direction:column;gap:4px;min-width:0}}
+.ok_{{align-self:flex-start;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--soft);color:var(--a)}}
+.ok_.prompt{{background:#fde7fb;color:var(--a2)}} .ok_.photo{{background:#e8f6ee;color:#15803d}}
+.ot .cb{{margin-top:6px;background:var(--bg)}}
 @media (max-width:520px){{.day summary{{grid-template-columns:48px 1fr auto;gap:10px;padding:12px}}.tasks label{{grid-template-columns:22px 46px 1fr;padding:9px 12px}}.day .cbs{{padding:6px 12px 12px}}}}
 @media (prefers-reduced-motion:reduce){{*{{transition:none!important}}}}
 '''
