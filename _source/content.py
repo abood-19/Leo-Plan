@@ -435,3 +435,35 @@ HL_OPT=[
 HL_HOW=(("Как выбрать обложку","كيف يختار الغلاف"),
  ("Под каждым хайлайтом 2–3 варианта. «Готово» — картинка уже лежит в «Картинках», просто сохрани. «Сгенерировать» — скопируй текст и вставь в любой генератор картинок (ChatGPT, Leonardo, Bing Image Creator). «Фото» — сними сам. Главное: на одном аккаунте все обложки в одном стиле.",
   "تحت كل هايلايت ٢–٣ خيارات. «جاهز» = الصورة موجودة بـ «الصور»، بس يحفظها. «توليد» = ينسخ النص ويحطه بأي مولّد صور (ChatGPT، Leonardo، Bing Image Creator). «صورة» = يصوّرها بنفسه. المهم: بنفس الحساب كل الأغلفة بنفس الستايل."))
+
+# ===== v6: unified highlight sets (Disc / Wave) =====
+DOLL_P='Turn the person in this photo into a cute 3D vinyl collectible toy figure, Pop Mart / Funko style: big head, small body, smooth plastic skin, same dark messy hair with bangs, black sunglasses, silver chain, black t-shirt, tiny tattoos on the arms, holding a small modern wireless tattoo pen. Clearly a toy, not realistic. Glossy studio render, soft violet rim light, purple silky wave background. Square 1:1, figure small and centered so it fits fully inside a circle.'
+_T=[("Запись","01_Запись"),("Работы","02_Работы"),("Эскизы","03_Эскизы"),("Отзывы","04_Отзывы"),("Уход","05_Уход"),("Обо мне","06_Обо_мне")]
+_P=[("Тату","01_Тату"),("Я","02_Я"),("Будни","03_Будни"),("Вайб","04_Вайб"),("Музыка","05_Музыка")]
+HL_OPT=[]
+for nm,f in _T:
+    o=[("img",("Диск","ديسك"),f"1_tattoo_account/highlights/sets/disc/{f}.png"),("img",("Волна","موج"),f"1_tattoo_account/highlights/sets/wave/{f}.png")]
+    if nm=="Обо мне": o.append(("prompt",("Лео-кукла: загрузи своё фото в ChatGPT вместе с этим текстом","ليو كدمية: يرفع صورته بـ ChatGPT مع هالنص"),DOLL_P))
+    if nm=="Отзывы": o.append(("url",("Голографическая звезда","نجمة هولوغرام"),STAR_URL))
+    HL_OPT.append(("tattoo",(nm,nm),o))
+for nm,f in _P:
+    o=[("img",("Диск","ديسك"),f"2_personal_account/highlights/sets/disc/{f}.png"),("img",("Волна","موج"),f"2_personal_account/highlights/sets/wave/{f}.png")]
+    if nm=="Я": o.append(("prompt",("Лео-кукла (тот же текст, фон розовый)","ليو كدمية (نفس النص، خلفية زهري)"),DOLL_P.replace("purple silky wave","pink silky wave")))
+    HL_OPT.append(("personal",(nm,nm),o))
+HL_HOW=(("Один стиль на аккаунт","ستايل واحد لكل حساب"),
+ ("Выбери «Диск» или «Волна» и поставь этот стиль на все хайлайты аккаунта. Тату-аккаунт — фиолетовый, личный — розовый. Для «Обо мне» и «Я» лучше всего кукла-Лео: скопируй текст, загрузи своё фото в ChatGPT и вставь текст.",
+  "يختار «ديسك» أو «موج» ويحط نفس الستايل على كل هايلايتس الحساب. حساب التاتو بنفسجي، الشخصي زهري. لـ «Обо мне» و«Я» الأحسن دمية ليو: ينسخ النص ويرفع صورته بـ ChatGPT."))
+# pack: replace neon highlight covers with sets
+PACK=[g for g in PACK if not g[1][0].startswith("Тату-аккаунт · хайлайты")]
+for g in PACK:
+    if g[1][0].startswith("Личный аккаунт · хайлайты"):
+        g[2][:]=[x for x in g[2] if "/highlights/" not in x[0]]
+PACK[0:0]=[
+ ("tattoo",("Хайлайты тату · Диск","هايلايتس التاتو · ديسك"),[(f"1_tattoo_account/highlights/sets/disc/{f}.png",(nm,nm),("Обложка","غلاف"),"hl") for nm,f in _T]),
+ ("tattoo",("Хайлайты тату · Волна","هايلايتس التاتو · موج"),[(f"1_tattoo_account/highlights/sets/wave/{f}.png",(nm,nm),("Обложка","غلاف"),"hl") for nm,f in _T]),
+ ("personal",("Хайлайты личные · Диск","هايلايتس الشخصي · ديسك"),[(f"2_personal_account/highlights/sets/disc/{f}.png",(nm,nm),("Обложка","غلاف"),"hl") for nm,f in _P]),
+ ("personal",("Хайлайты личные · Волна","هايلايتس الشخصي · موج"),[(f"2_personal_account/highlights/sets/wave/{f}.png",(nm,nm),("Обложка","غلاف"),"hl") for nm,f in _P]),
+]
+# highlight map covers -> disc set
+_map={**{nm:f"1_tattoo_account/highlights/sets/disc/{f}.png" for nm,f in _T},**{nm:f"2_personal_account/highlights/sets/disc/{f}.png" for nm,f in _P}}
+HMAP=[(a,n,_map.get(n[0],c),s) for a,n,c,s in HMAP]
