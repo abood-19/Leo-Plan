@@ -1,4 +1,11 @@
 import os, shutil, html, sys
+from PIL import Image as _I
+def _cp(src,dst):
+    im=_I.open(src)
+    if im.mode=="RGBA" and im.getextrema()[3][0]<255:
+        dst=dst[:-4]+".png"; im.save(dst,optimize=True)
+    else: im.convert("RGB").save(dst,"JPEG",quality=86,optimize=True,progressive=True)
+    return dst
 sys.path.insert(0,"/home/claude/leo3")
 from content import *
 e=html.escape
@@ -37,10 +44,10 @@ def build(L,out,standalone=False):
     for g in PACK:
         for it in g[2]:
             if it[0] in IMG: continue
-            n+=1; a=f"img/{n:02d}.png"; shutil.copy(f"{PACKDIR}/{it[0]}",out+"/"+a); IMG[it[0]]=a
+            n+=1; a=f"img/{n:02d}.jpg"; a=os.path.relpath(_cp(f"{PACKDIR}/{it[0]}",out+"/"+a),out); IMG[it[0]]=a
     for _,_,cov,st in HMAP:
         for f in [cov]+[x[0] for x in st if x[0]]:
-            if f not in IMG: n+=1; a=f"img/{n:02d}.png"; shutil.copy(f"{PACKDIR}/{f}",out+"/"+a); IMG[f]=a
+            if f not in IMG: n+=1; a=f"img/{n:02d}.jpg"; a=os.path.relpath(_cp(f"{PACKDIR}/{f}",out+"/"+a),out); IMG[f]=a
     def cb(c):
         where,desc,text=c
         return f'<div class="cb"><div class="cbh"><div><span class="lbl">{e(t(UI["where"]))}</span><b>{e(t(where))}</b></div><button class="copy" type="button">{e(t(UI["copy"]))}</button></div><p class="cbd">{e(t(desc))}</p><pre dir="auto">{e(t(text))}</pre></div>'
@@ -84,7 +91,7 @@ def build(L,out,standalone=False):
     for _,_,opts in HL_OPT:
         for k_,lab,pay in opts:
             if k_=="img" and pay not in IMG:
-                n_=len(IMG)+1; a_=f"img/{n_:02d}.png"; shutil.copy(f"{PACKDIR}/{pay}",out+"/"+a_); IMG[pay]=a_
+                n_=len(IMG)+1; a_=f"img/{n_:02d}.jpg"; a_=os.path.relpath(_cp(f"{PACKDIR}/{pay}",out+"/"+a_),out); IMG[pay]=a_
     kind_lbl={"img":("Готово","جاهز"),"url":("Готово","جاهز"),"pending":("Готово","جاهز"),"prompt":("Сгенерировать","توليد"),"photo":("Снять самому","تصوير")}
     def opts(a_):
         h='<div class="opts">'
@@ -102,7 +109,7 @@ def build(L,out,standalone=False):
     import urllib.parse
     def addimg(path):
         if path not in IMG:
-            n_=len(IMG)+1; a_=f"img/{n_:02d}.png"; shutil.copy(f"{PACKDIR}/{path}",out+"/"+a_); IMG[path]=a_
+            n_=len(IMG)+1; a_=f"img/{n_:02d}.jpg"; a_=os.path.relpath(_cp(f"{PACKDIR}/{path}",out+"/"+a_),out); IMG[path]=a_
         return IMG[path]
     H=f'<div class="libhead"><h1>{e(t(LIB_HOW[0]))}</h1><p>{e(t(LIB_HOW[1]))}</p></div>'
     for sid,nm,ds in LIB:
