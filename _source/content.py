@@ -467,3 +467,25 @@ PACK[0:0]=[
 # highlight map covers -> disc set
 _map={**{nm:f"1_tattoo_account/highlights/sets/disc/{f}.png" for nm,f in _T},**{nm:f"2_personal_account/highlights/sets/disc/{f}.png" for nm,f in _P}}
 HMAP=[(a,n,_map.get(n[0],c),s) for a,n,c,s in HMAP]
+
+# ===== v7: Chrome Flash highlight set (main) =====
+HL_OPT=[]
+for nm,f in _T:
+    o=[("img",("Chrome Flash","Chrome Flash"),f"1_tattoo_account/highlights/chrome/{f}.png")]
+    if nm=="Обо мне": o.append(("prompt",("Лео-кукла: загрузи своё фото в ChatGPT вместе с этим текстом","ليو كدمية: يرفع صورته بـ ChatGPT مع هالنص"),DOLL_P))
+    if nm=="Отзывы": o.append(("url",("Голографическая звезда","نجمة هولوغرام"),STAR_URL))
+    HL_OPT.append(("tattoo",(nm,nm),o))
+for nm,f in _P:
+    o=[("img",("Chrome Flash","Chrome Flash"),f"2_personal_account/highlights/chrome/{f}.png")]
+    if nm=="Я": o.append(("prompt",("Лео-кукла (фон розовый)","ليو كدمية (خلفية زهري)"),DOLL_P.replace("purple silky wave","pink silky wave")))
+    HL_OPT.append(("personal",(nm,nm),o))
+HL_HOW=(("Стиль «Chrome Flash»","ستايل «Chrome Flash»"),
+ ("Классические символы тату-флэша (кинжал, сердце с лентой, песочные часы, капля, луна) в жидком хроме с перламутром. Вокруг — кольцо с надписью KAISHI ✦ TATTOO ✦ TASHKENT. Тату-аккаунт — фиолетовый, личный — розовый: одна семья, два цвета. Что значит каждый символ: часы — время записи, тату-ручка — работы, кинжал — эскизы, сердце — отзывы, капля — уход, луна — обо мне.",
+  "رموز فلاش التاتو الكلاسيكية (خنجر، قلب مع شريطة، ساعة رملية، نقطة، قمر) بكروم سائل لؤلؤي. حواليها حلقة مكتوب عليها KAISHI ✦ TATTOO ✦ TASHKENT. حساب التاتو بنفسجي والشخصي زهري: عيلة وحدة بلونين. معنى كل رمز: الساعة = وقت الحجز، قلم التاتو = الشغل، الخنجر = الإسكتشات، القلب = الآراء، النقطة = العناية، القمر = عنّي."))
+PACK=[g for g in PACK if "· Диск" not in g[1][0] and "· Волна" not in g[1][0]]
+PACK[0:0]=[
+ ("tattoo",("Хайлайты тату · Chrome Flash","هايلايتس التاتو · Chrome Flash"),[(f"1_tattoo_account/highlights/chrome/{f}.png",(nm,nm),("Обложка","غلاف"),"hl") for nm,f in _T]),
+ ("personal",("Хайлайты личные · Chrome Flash","هايلايتس الشخصي · Chrome Flash"),[(f"2_personal_account/highlights/chrome/{f}.png",(nm,nm),("Обложка","غلاف"),"hl") for nm,f in _P]),
+]
+_map={**{nm:f"1_tattoo_account/highlights/chrome/{f}.png" for nm,f in _T},**{nm:f"2_personal_account/highlights/chrome/{f}.png" for nm,f in _P}}
+HMAP=[(a,n,_map.get(n[0],c),s) for a,n,c,s in HMAP]
