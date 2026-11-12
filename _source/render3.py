@@ -99,7 +99,23 @@ def build(L,out,standalone=False):
                 h+=f'<div class="oi {k_}">{pic}<div class="ot"><span class="ok_ {k_}">{e(t(kind_lbl[k_]))}</span><b>{e(t(lab))}</b>{op}{body}</div></div>'
             h+='</div></div>'
         return h+'</div>'
-    H=f'<div class="note"><b>{e(t(HL_HOW[0]))}</b><p>{e(t(HL_HOW[1]))}</p></div><h2>@kaishi_tattoo · '+e(t(("обложки","الأغلفة")))+'</h2>'+opts("tattoo")+f'<h2>@wenx.xz_ · '+e(t(("обложки","الأغلفة")))+'</h2>'+opts("personal")
+    import urllib.parse
+    def addimg(path):
+        if path not in IMG:
+            n_=len(IMG)+1; a_=f"img/{n_:02d}.png"; shutil.copy(f"{PACKDIR}/{path}",out+"/"+a_); IMG[path]=a_
+        return IMG[path]
+    H=f'<div class="libhead"><h1>{e(t(LIB_HOW[0]))}</h1><p>{e(t(LIB_HOW[1]))}</p></div>'
+    for sid,nm,ds in LIB:
+        H+=f'<article class="lib {sid}"><div class="libt"><b>{e(t(nm))}</b><span>{e(t(ds))}</span></div>'
+        for acc_,lst,lab in (("tattoo",TN,"@kaishi_tattoo"),("personal",PN,"@wenx.xz_")):
+            H+=f'<div class="librow"><small>{lab}</small><div class="libc">'
+            for f in lst:
+                a_=addimg(f"library/{sid}/{acc_}/{f}.png"); nm_=f.split("_",1)[1].replace("_"," ")
+                H+=f'<a href="{a_}" target="_blank" rel="noopener"><img src="{a_}" alt="{e(nm_)}" loading="lazy"><span>{e(nm_)}</span></a>'
+            H+='</div></div>'
+        H+='</article>'
+    H+=f'<h2>Pinterest</h2><div class="pins">'+"".join(f'<a href="https://www.pinterest.com/search/pins/?q={urllib.parse.quote(q)}" target="_blank" rel="noopener">{e(lb)} ↗</a>' for lb,q in PIN)+'</div>'
+    H+=f'<h2>{e(t(("Лео-кукла для «Обо мне»","دمية ليو لـ «Обо мне»")))}</h2>'+cbs([(("ChatGPT → загрузи своё фото + этот текст","ChatGPT ← يرفع صورته + هالنص"),("Получится 3D-фигурка тебя для обложки «Обо мне» и «Я».","بتطلع دمية ثلاثية الأبعاد إله لغلاف «Обо мне» و«Я»."),(DOLL_P,DOLL_P))])
     H+=f'<h2>{e(t(UI["inside"]))} · @kaishi_tattoo</h2><p class="lead">{e(t(UI["hl_d"]))}</p><div class="hmap">{hrow("tattoo")}</div>'+cbs(tat_hl)
     H+=f'<h2>{e(t(UI["inside"]))} · @wenx.xz_</h2><div class="hmap">{hrow("personal")}</div>'+cbs(per_hl)
     # ---- texts tab
@@ -210,6 +226,19 @@ figcaption span{{color:var(--m);line-height:1.4}}
 .ok_{{align-self:flex-start;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;background:var(--soft);color:var(--a)}}
 .ok_.prompt{{background:#fde7fb;color:var(--a2)}} .ok_.photo{{background:#e8f6ee;color:#15803d}}
 .ot .cb{{margin-top:6px;background:var(--bg)}}
+.libhead h1{{font-size:clamp(28px,6vw,38px)}} .libhead p{{color:var(--m);margin:6px 0 18px}}
+.lib{{border-radius:20px;padding:18px;margin-bottom:14px;color:#fff;overflow:hidden;position:relative}}
+.lib.neon{{background:linear-gradient(135deg,#120a1c,#2a0f3d)}} .lib.chrome{{background:linear-gradient(135deg,#0b0a10,#2b2738)}}
+.lib.glass{{background:linear-gradient(135deg,#1b0f3a,#3b1257 55%,#1d2b6b)}} .lib.aura{{background:linear-gradient(135deg,#d9c8ff,#ffd0ea 60%,#c7d2fe);color:#2a1d45}}
+.lib.flash{{background:linear-gradient(135deg,#1a0b2e,#3a1670)}}
+.libt{{display:flex;flex-direction:column;gap:2px;margin-bottom:12px}} .libt b{{font:700 24px var(--fd);letter-spacing:.03em}} .libt span{{font-size:14px;opacity:.8}}
+.librow{{margin-top:10px}} .librow small{{font-size:12px;opacity:.7;letter-spacing:.06em}}
+.libc{{display:flex;gap:12px;overflow-x:auto;padding:8px 2px 4px;scrollbar-width:none}}
+.libc a{{flex:none;width:76px;display:flex;flex-direction:column;align-items:center;gap:6px;text-decoration:none;color:inherit;font-size:12px}}
+.libc img{{width:72px;height:72px;border-radius:50%;object-fit:cover;object-position:center;border:2px solid rgba(255,255,255,.55);box-shadow:0 6px 18px rgba(0,0,0,.35)}}
+.libc a:hover img{{transform:scale(1.06)}} .libc img{{transition:transform .2s}}
+.pins{{display:flex;flex-wrap:wrap;gap:8px}}
+.pins a{{text-decoration:none;font-weight:600;font-size:14px;color:#fff;background:#e60023;padding:8px 14px;border-radius:999px}}
 @media (max-width:520px){{.day summary{{grid-template-columns:48px 1fr auto;gap:10px;padding:12px}}.tasks label{{grid-template-columns:22px 46px 1fr;padding:9px 12px}}.day .cbs{{padding:6px 12px 12px}}}}
 @media (prefers-reduced-motion:reduce){{*{{transition:none!important}}}}
 '''
