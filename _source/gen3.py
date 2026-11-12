@@ -1,8 +1,8 @@
 import math, os
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 OS="/home/claude/fonts/Oswald.ttf"; IN="/home/claude/fonts/Inter.ttf"
-BG=(10,7,7); P=(19,11,11); R=(208,32,27); R2=(142,15,15); T=(239,231,220); M=(167,156,146)
-OUT="/home/claude/leo2/pack"
+BG=(6,4,10); P=(22,13,36); R=(170,90,255); R2=(110,40,200); T=(244,238,255); M=(165,152,196)
+OUT="/home/claude/leo3/pack"
 def F(path,size,w):
     f=ImageFont.truetype(path,size)
     try: f.set_variation_by_axes([w] if path==OS else [32,w])
@@ -80,7 +80,7 @@ def highlight(kind,name,theme="dark",photo=None,bw=False):
     W,H=2160,3840; bg=BG if theme=="dark" else T
     im=Image.new("RGB",(W,H),bg); d=ImageDraw.Draw(im)
     cx,cy=W//2,H//2
-    disc=P if theme=="dark" else (226,216,203)
+    disc=P if theme=="dark" else P
     d.ellipse((cx-560,cy-560,cx+560,cy+560),fill=disc)
     d.ellipse((cx-600,cy-600,cx+600,cy+600),outline=R,width=10)
     if photo:
@@ -139,7 +139,7 @@ def story_booking():
     y+=50
     for n,s in steps:
         d.text((MX,y),n,font=F(OS,46,600),fill=R); d.text((MX+110,y+4),s,font=F(IN,44,500),fill=T)
-        y+=96; d.line((MX,y-24,W-MX,y-24),fill=(40,28,28),width=2)
+        y+=96; d.line((MX,y-24,W-MX,y-24),fill=(40,28,60),width=2)
     by=1340
     d.rounded_rectangle((MX,by,W-MX,by+190),radius=28,outline=R,width=4)
     t="место для ссылки"; f=F(IN,36,500); d.text(((W-tw(d,t,f))/2,by+72),t,font=f,fill=M)
@@ -168,12 +168,12 @@ def story_review():
     para(d,MX,1520,"Спасибо, что доверяете мне свою кожу.",40,T)
     save(im,"1_tattoo_account/stories/03_Отзыв.png")
 def story_link_personal():
-    W,Hh=1080,1920; im=Image.new("RGB",(W,Hh),T); d=ImageDraw.Draw(im)
-    f=F(OS,34,500); d.text((MX,170),"WENX.XZ_",font=f,fill=BG); d.rectangle((MX,228,MX+60,234),fill=R)
-    big(d,MX,330,["МОИ ТАТУ","ЖИВУТ","ТАМ"],160,[BG,BG,R])
-    y=para(d,MX,880,"Работы, эскизы и запись — в отдельном аккаунте.",42,(80,70,66))
+    W,Hh=1080,1920; im=Image.new("RGB",(W,Hh),BG); d=ImageDraw.Draw(im)
+    f=F(OS,34,500); d.text((MX,170),"WENX.XZ_",font=f,fill=T); d.rectangle((MX,228,MX+60,234),fill=R)
+    big(d,MX,330,["МОИ ТАТУ","ЖИВУТ","ТАМ"],160,[T,T,R])
+    y=para(d,MX,880,"Работы, эскизы и запись — в отдельном аккаунте.",42,M)
     d.rounded_rectangle((MX,1150,W-MX,1330),radius=28,outline=R,width=4)
-    t="место для @упоминания"; f=F(IN,36,500); d.text(((W-tw(d,t,f))/2,1218),t,font=f,fill=(110,100,96))
+    t="место для @упоминания"; f=F(IN,36,500); d.text(((W-tw(d,t,f))/2,1218),t,font=f,fill=M)
     save(im,"2_personal_account/stories/01_Мои_тату_там.png")
 for fn in (story_booking,story_dates,story_review,story_link_personal): fn()
 
@@ -182,7 +182,7 @@ def slide(lines,cols,sub,idx,total,name,size=150,foot="листай →"):
     W,Hh=1080,1350; im=Image.new("RGB",(W,Hh),BG); d=ImageDraw.Draw(im)
     topbar(d,W,f"{idx:02d} / {total:02d}",y=96)
     if 1<idx and ("kak_" in name or "5_vop" in name):
-        fn=F(OS,420,700); n=f"{idx-1}"; d.text((W-MX-tw(d,n,fn),180),n,font=fn,fill=(34,20,20))
+        fn=F(OS,420,700); n=f"{idx-1}"; d.text((W-MX-tw(d,n,fn),180),n,font=fn,fill=(30,18,52))
     y=big(d,MX,560 if size>=170 else 420,lines,size,cols)
     if sub: para(d,MX,y+44,sub,46,M,maxw=820)
     f=F(IN,32,500); d.text((MX,Hh-140),"@kaishi_tattoo · Ташкент",font=f,fill=M)
@@ -202,7 +202,7 @@ def overlay(label,num,name,light=False):
     top=(Hh-1350)//2
     # gradient bottom for legibility
     for i in range(420):
-        a=int(200*(i/420)); d.line((0,top+1350-420+i,W,top+1350-420+i),fill=(10,7,7,a))
+        a=int(200*(i/420)); d.line((0,top+1350-420+i,W,top+1350-420+i),fill=(6,4,10,a))
     f=F(OS,110,700); y=top+1350-260
     d.rectangle((MX,y-34,MX+70,y-26),fill=R+(255,))
     d.text((MX,y),label,font=f,fill=T+(255,))
@@ -234,12 +234,12 @@ def base(light=False,label=None,handle="ЛЕО  TATTOO"):
     W,Hh=1080,1920; im=Image.new("RGB",(W,Hh),T if light else BG); d=ImageDraw.Draw(im)
     fg=BG if light else T
     f=F(OS,34,500); d.text((MX,170),handle,font=f,fill=fg); d.rectangle((MX,228,MX+60,234),fill=R)
-    if label: d.text((W-MX-tw(d,label,f),170),label,font=f,fill=M if not light else (110,100,96))
+    if label: d.text((W-MX-tw(d,label,f),170),label,font=f,fill=M if not light else M)
     return im,d,fg
 def frame(d,box,txt,light=False):
     d.rounded_rectangle(box,radius=28,outline=R,width=4)
     f=F(IN,34,500); x0,y0,x1,y1=box
-    d.text(((x0+x1-tw(d,txt,f))/2,(y0+y1)/2-20),txt,font=f,fill=(110,100,96) if light else M)
+    d.text(((x0+x1-tw(d,txt,f))/2,(y0+y1)/2-20),txt,font=f,fill=M if light else M)
 
 # Уход
 im,d,fg=base(label="УХОД")
@@ -249,7 +249,7 @@ y+=70
 for a,b in rows:
     d.text((MX,y),a,font=F(OS,38,600),fill=R)
     yy=para(d,MX+250,y+6,b,40,T,maxw=W-MX*2-250 if False else 640)
-    y=max(y+70,yy)+30; d.line((MX,y-22,1080-MX,y-22),fill=(40,28,28),width=2)
+    y=max(y+70,yy)+30; d.line((MX,y-22,1080-MX,y-22),fill=(40,28,60),width=2)
 para(d,MX,1640,"Вопрос по заживлению — пиши в Direct.",38,M)
 save(im,"1_tattoo_account/stories/04_Уход.png")
 
@@ -272,18 +272,18 @@ for k in range(4): d.line((MX,1270+k*95,1080-MX,1270+k*95),fill=(50,34,33),width
 save(im,"1_tattoo_account/stories/06_Ответ.png")
 
 # Personal: новая работа (repost frame)
-im,d,fg=base(light=True,label="ТАТУ",handle="WENX.XZ_")
+im,d,fg=base(light=False,label="ТАТУ",handle="WENX.XZ_")
 big(d,MX,330,["НОВАЯ","РАБОТА"],150,[BG,R])
-frame(d,(MX,700,1080-MX,1540),"сюда репост поста",light=True)
-para(d,MX,1600,"Больше работ — @kaishi_tattoo",40,(80,70,66))
+frame(d,(MX,700,1080-MX,1540),"сюда репост поста",light=False)
+para(d,MX,1600,"Больше работ — @kaishi_tattoo",40,M)
 save(im,"2_personal_account/stories/02_Новая_работа.png")
 
 # Personal: моя музыка
-im,d,fg=base(light=True,label="МУЗЫКА",handle="WENX.XZ_")
+im,d,fg=base(light=False,label="МУЗЫКА",handle="WENX.XZ_")
 big(d,MX,330,["ПОД ЭТО","Я БЬЮ","ТАТУ"],150,[BG,BG,R])
-para(d,MX,860,"Мой музыкальный канал в Telegram.",42,(80,70,66))
-frame(d,(MX,1150,1080-MX,1330),"место для ссылки",light=True)
-para(d,MX,1380,"t.me/music_stayleo",36,(110,100,96))
+para(d,MX,860,"Мой музыкальный канал в Telegram.",42,M)
+frame(d,(MX,1150,1080-MX,1330),"место для ссылки",light=False)
+para(d,MX,1380,"t.me/music_stayleo",36,M)
 save(im,"2_personal_account/stories/03_Моя_музыка.png")
 
 # Carousel: 5 вопросов перед первой тату
