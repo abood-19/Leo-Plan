@@ -374,7 +374,6 @@ IDEAS=[
 ]
 
 # extra pack items
-PACK.insert(0,("tattoo",("Премиум-обложки","أغلفة مميزة"),[("1_tattoo_account/highlights/premium/Работы_машинка.png",("Тату-машинка","ماكينة التاتو"),("Обложка «Работы» или «Тату»","غلاف «Работы» أو «Тату»"),"story")]))
 PACK.insert(3,("tattoo",("Тату-аккаунт · сторис для хайлайтов","حساب التاتو · ستوريز للهايلايتس"),[
  ("1_tattoo_account/stories/00_Тату-мастер.png",("Тату-мастер","فنان تاتو"),("Первая сторис в «Обо мне»","أول ستوري بـ «Обо мне»"),"story"),
  ("1_tattoo_account/stories/04_Уход.png",("Уход","العناية"),("Сторис в «Уход»","ستوري بـ «Уход»"),"story"),
@@ -398,7 +397,7 @@ HL_OPT=[
  ("prompt",("Хромированный календарь","تقويم كروم"),"A small 3D desk calendar icon with a check mark,"+STYLE),
  ("photo",("Фото: экран телефона с сайтом записи в фиолетовом свете","صورة: شاشة الجوال على موقع الحجز بضو بنفسجي"),None)]),
 ("tattoo",("Работы","Работы"),[
- ("img",("Хромовая тату-машинка","ماكينة تاتو كروم"),"1_tattoo_account/highlights/premium/Работы_машинка.png"),
+ ("prompt",("Современная тату-ручка в хроме","قلم تاتو حديث كروم"),"A modern wireless rotary tattoo pen (sleek pen-style tattoo machine with battery grip and needle cartridge), newest design, glossy iridescent chrome with lilac, pink and cyan reflections, 3D product render, placed diagonally and fully visible, small and centered with lots of empty space so it fits inside a circle, pure black background, square 1:1, no text."),
  ("img",("Неоновая Р","حرف Р نيون"),"1_tattoo_account/highlights/01_Работы.png"),
  ("photo",("Фото: твоя рука с машинкой крупно, тёмный фон, фиолетовый свет","صورة: إيده بالماكينة عن قرب، خلفية غامقة، ضو بنفسجي"),None)]),
 ("tattoo",("Эскизы","Эскизы"),[
@@ -414,11 +413,11 @@ HL_OPT=[
  ("prompt",("Хромовая капля","نقطة كروم"),"A single 3D water droplet,"+STYLE),
  ("photo",("Фото: тюбик крема и плёнка на тёмном столе","صورة: أنبوب الكريم والنايلون على طاولة غامقة"),None)]),
 ("tattoo",("Обо мне","Обо мне"),[
- ("pending",("Лео-игрушка с надписью «ТАТУ»","ليو كدمية مع كلمة «ТАТУ»"),"avatar"),
+ ("prompt",("Лео-игрушка (загрузи своё фото в ChatGPT вместе с этим текстом)","ليو كدمية (يرفع صورته بـ ChatGPT مع هالنص)"),"Turn the person in this photo into a cute 3D vinyl collectible toy figure, Pop Mart / Funko style: big head, small body, smooth plastic skin, same dark messy hair with bangs, black sunglasses, silver chain, black t-shirt, tiny tattoos on the arms, holding a small modern wireless tattoo pen. Clearly a toy, not realistic. Glossy studio render, soft violet rim light, pure black background. Square 1:1, figure small and centered so it fits fully inside a circle."),
  ("img",("Неоновая Л","حرف Л نيون"),"1_tattoo_account/highlights/06_Обо_мне.png"),
  ("photo",("Фото: ты в очках, чёрно-белое","صورة: هو بالنظارة، أبيض وأسود"),None)]),
 ("personal",("Тату","Тату"),[
- ("img",("Хромовая тату-машинка","ماكينة كروم"),"1_tattoo_account/highlights/premium/Работы_машинка.png"),
+ ("prompt",("Современная тату-ручка в хроме","قلم تاتو حديث كروم"),"A modern wireless rotary tattoo pen (sleek pen-style tattoo machine with battery grip and needle cartridge), newest design, glossy iridescent chrome with lilac, pink and cyan reflections, 3D product render, placed diagonally and fully visible, small and centered with lots of empty space so it fits inside a circle, pure black background, square 1:1, no text."),
  ("img",("Розовая неоновая Т","حرف Т زهري"),"2_personal_account/highlights/01_Тату.png")]),
 ("personal",("Я","Я"),[
  ("img",("Розовая неоновая Я","حرف Я زهري"),"2_personal_account/highlights/02_Я.png"),
